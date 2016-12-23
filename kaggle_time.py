@@ -88,14 +88,12 @@ canada['display_id'] = canada.index
 canada = canada.drop_duplicates(['display_id'])
 canada = canada.drop('display_id', 1)
 
-#Take a look at platform use by hour, but now only for unique events 
-#(I dont think this changes anything, because if 8 adds are always shown, then the proportions remain the same)
-plt.figure(figsize=(12,4))
-canada.loc[canada.platform == 1].hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="Desktop", alpha=0.7, normed=True)
-canada.loc[canada.platform == 2].hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="Mobile", alpha=0.5, normed=True)
-canada.loc[canada.platform == 3].hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="Tablet", alpha=0.4, normed=True)
+#Take a look at platform use by hour, but now only for unique events, and absolute numbers as opposed to fractions
+canada.loc[canada.platform == 1].hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="Desktop", alpha=0.7, normed=False)
+canada.loc[canada.platform == 2].hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="Mobile", alpha=0.5, normed=False)
+canada.loc[canada.platform == 3].hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="Tablet", alpha=0.4, normed=False)
 plt.xlim(-0.5, 23.5)
 plt.legend(loc="best")
 plt.xlabel("Hour of Day")
-plt.ylabel("Fraction of Events")
+plt.ylabel("Absolute number of events")
 
