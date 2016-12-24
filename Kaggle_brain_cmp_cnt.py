@@ -45,3 +45,12 @@ cntrys = train.geo_location.value_counts()[:5]
 
 #Remove all entries not in the top 5 most common countries
 train = train.loc[train['geo_location'].isin(cntrys.index)]
+                  
+plt.figure(figsize=(12,4))
+train.loc[train['geo_location'].isin(['GB'])].platform.astype(np.int16).hist(bins = 3, label="GB", alpha = 0.7, normed = True)
+train.loc[train['geo_location'].isin(['IN'])].platform.astype(np.int16).hist(bins = 3, label="IN", alpha = 0.7, normed = True)
+train.loc[train['geo_location'].isin(['CA'])].platform.astype(np.int16).hist(bins = 3, label="CA", alpha = 0.7, normed = True)
+plt.xlim(1, 3)
+plt.legend(loc="best")
+plt.xlabel("Platform")
+plt.ylabel("Fraction of users")
