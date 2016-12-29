@@ -30,13 +30,6 @@ del events
 train["hour"] = (train.timestamp // (3600 * 1000)) % 24
 train["day"] = train.timestamp // (3600 * 24 * 1000)
 
-plt.figure(figsize=(12,4))
-train.hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="train", alpha=0.7, normed=True)
-plt.xlim(-0.5, 23.5)
-plt.legend(loc="best")
-plt.xlabel("Hour of Day")
-plt.ylabel("Fraction of Events")
-
 #Drop geo_location info except for country code
 train.geo_location = train.geo_location.str[:2]
 
@@ -47,10 +40,18 @@ cntrys = train.geo_location.value_counts()[:5]
 train = train.loc[train['geo_location'].isin(cntrys.index)]
                   
 plt.figure(figsize=(12,4))
-train.loc[train['geo_location'].isin(['GB'])].platform.astype(np.int16).hist(bins = 3, label="GB", alpha = 0.7, normed = True)
-train.loc[train['geo_location'].isin(['IN'])].platform.astype(np.int16).hist(bins = 3, label="IN", alpha = 0.7, normed = True)
-train.loc[train['geo_location'].isin(['CA'])].platform.astype(np.int16).hist(bins = 3, label="CA", alpha = 0.7, normed = True)
-plt.xlim(1, 3)
+train.loc[train['platform'].isin([1])].geo_location.value_counts().hist(bins = 5, label="Desktop", alpha = 0.7, normed = True)
+train.loc[train['platform'].isin([2])].geo_location.value_counts().hist(bins = 5, label="Phone", alpha = 0.7, normed = True)
+train.loc[train['platform'].isin([3])].geo_location.value_counts().hist(bins = 5, label="Tablet", alpha = 0.7, normed = True)
+plt.xlim(1, 5)
+plt.legend(loc="best")
+plt.xlabel("Platform")
+plt.ylabel("Fraction of users")
+
+plt.figure(figsize=(12,4))
+train.loc[train['platform'].isin([1])].geo_location.value_counts().plot(kind = 'bar', label="Dekstop", alpha = 0.6, normed=True)
+train.loc[train['platform'].isin([2])].geo_location.value_counts().plot(kind = 'bar', label="Dekstop", alpha = 0.6, normed=True)
+train.loc[train['platform'].isin([3])].geo_location.value_counts().plot(kind = 'bar', label="Dekstop", alpha = 0.6, normed=True)
 plt.legend(loc="best")
 plt.xlabel("Platform")
 plt.ylabel("Fraction of users")

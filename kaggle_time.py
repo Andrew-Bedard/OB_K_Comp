@@ -28,7 +28,7 @@ del events
 
 #Lets check out the hour and the day people be doing things
 train["hour"] = (train.timestamp // (3600 * 1000)) % 24
-train["day"] = train.timestamp // (3600 * 24 * 1000)
+train["day"] = train.timestamp // (3600 * 24 * 1000) % 7
 
 plt.figure(figsize=(12,4))
 train.hour.hist(bins=np.linspace(-0.5, 23.5, 25), label="train", alpha=0.7, normed=True)
@@ -97,3 +97,19 @@ plt.legend(loc="best")
 plt.xlabel("Hour of Day")
 plt.ylabel("Absolute number of events")
 
+#How do days of the week look?
+plt.figure(figsize=(12,4))
+canada.day.hist(bins=np.linspace(-0.5, 6.5, 7), label="Days of the week", alpha=0.7, normed=True)
+plt.xlim(-0.5, 6.5)
+plt.legend(loc="best")
+plt.xlabel("Day of the week")
+plt.ylabel("Fraction of Events")
+
+#Take a look at platform use by day, but now only for unique events, and absolute numbers as opposed to fractions
+canada.loc[canada.platform == 1].day.hist(bins=np.linspace(-0.5, 6.5, 7), label="Desktop", alpha=0.7, normed=True)
+canada.loc[canada.platform == 2].day.hist(bins=np.linspace(-0.5, 6.5, 7), label="Mobile", alpha=0.5, normed=True)
+canada.loc[canada.platform == 3].day.hist(bins=np.linspace(-0.5, 6.5, 7), label="Tablet", alpha=0.4, normed=True)
+plt.xlim(-0.5, 6.5)
+plt.legend(loc="best")
+plt.xlabel("Day of the week")
+plt.ylabel("Fraction of events")
